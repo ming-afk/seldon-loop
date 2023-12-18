@@ -1,0 +1,8 @@
+numpy==1.24.3
+torch
+torchvision
+typing 
+Pillow
+kserve
+pybase64
+Python-IO

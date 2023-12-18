@@ -1,0 +1,36 @@
+apiVersion: machinelearning.seldon.io/v1
+kind: SeldonDeployment
+metadata:
+  name: recurse
+spec:
+  name: test
+  predictors:
+  - componentSpecs:
+    - spec:
+        containers:
+        - image: minghaosdocker/modela:1.0.2
+          name: model-a
+        - image: minghaosdocker/router:1.0.0
+          name: node-router
+    graph:
+      children: 
+      - name: node-router
+        type: ROUTER
+        parameters:
+        - name: n_branches
+          type: INT
+          value: '2'
+        - name: epsilon
+          type: FLOAT
+          value: '0.3'
+        - name: verbose
+          type: BOOL
+          value: '1'
+        children: 
+        - name: model-a
+          type: MODEL
+          children: []
+      name: model-a
+      type: MODEL
+    name: example
+    replicas: 1
